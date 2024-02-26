@@ -1,21 +1,15 @@
-module.exports = app => {
+import express from "express";
+import dotenv from "dotenv";
+import auth from "../middlewares/auth.js";
+import UserController from "../controllers/usercontroller.js";
+dotenv.config();
 
-    app.get('/', (req, res) => {
-        res.render('index');
-    });
+const uR = express.Router();
 
-    app.get('/white', (req, res) => {
-        res.render('game', {
-            color: 'white'
-        });
-    });
-    app.get('/black', (req, res) => {
-        if (!games[req.query.code]) {
-            return res.redirect('/?error=invalidCode');
-        }
+const uC = new UserController();
 
-        res.render('game', {
-            color: 'black'
-        });
-    });
-};
+uR.post("/register", uC.register);
+uR.post("/login", uC.login);
+uR.post("/get-user",auth, uC.sendUserInfo);
+
+export default uR;

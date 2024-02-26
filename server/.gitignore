@@ -1,0 +1,24 @@
+# Node.js
+node_modules/
+
+# React build output
+/build/
+
+# Environment variables
+.env
+
+# Visual Studio Code configuration
+.vscode/
+
+# macOS system files
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Dependency directories
+npm-debug.log*
+pids/
+logs/
+results/
