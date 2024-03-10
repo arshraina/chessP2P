@@ -11,5 +11,6 @@ const uC = new UserController();
 uR.post("/register", uC.register);
 uR.post("/login", uC.login);
 uR.post("/get-user",auth, uC.sendUserInfo);
+uR.post("/verifyotp",auth, uC.verifyOtp);
 
 export default uR;

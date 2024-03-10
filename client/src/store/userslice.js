@@ -6,6 +6,7 @@ const initialState = {
   isLoading: false,
   isErrored: false,
   isSuccessful: false,
+  message:"",
   user: null,
 };
 
@@ -51,6 +52,7 @@ export const getUserDetails = createAsyncThunk(
     try {
       const token = thunkAPI.getState().user.user.token;
       const response = await userService.getUserDetails(token);
+      console.log(response);
       return response;
     } catch (error) {
       const message =
@@ -64,24 +66,24 @@ export const getUserDetails = createAsyncThunk(
   }
 );
 
-export const createGame = createAsyncThunk(
-  "user/createGame",
-  async (gameData, thunkAPI) => {
-    try {
-      const token = thunkAPI.getState().user.user.token;
-      const response = await userService.createGame(gameData, token);
-      return response;
-    } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.toString() ||
-        error.message;
-      return thunkAPI.rejectWithValue({ message });
-    }
-  }
-);
+// export const createGame = createAsyncThunk(
+//   "user/createGame",
+//   async (gameData, thunkAPI) => {
+//     try {
+//       const token = thunkAPI.getState().user.user.token;
+//       const response = await userService.createGame(gameData, token);
+//       return response;
+//     } catch (error) {
+//       const message =
+//         (error.response &&
+//           error.response.data &&
+//           error.response.data.message) ||
+//         error.toString() ||
+//         error.message;
+//       return thunkAPI.rejectWithValue({ message });
+//     }
+//   }
+// );
 
 export const logout = createAsyncThunk("user/logout", (_, thunkAPI) => {
   try {
@@ -108,12 +110,14 @@ export const userSlice = createSlice({
       state.isLoading = false;
       state.isSuccessful = true;
       state.isLogged = true;
-      state.user = action.payload;
+      state.message = action.payload.message;
+      // state.user = action.payload;
     });
     builder.addCase(login.rejected, (state, action) => {
       state.isLoading = false;
       state.isErrored = true;
       state.user = null;
+      state.message = action.payload.message;
     });
 
     builder.addCase(register.pending, (state) => {
@@ -124,15 +128,18 @@ export const userSlice = createSlice({
       state.isSuccessful = true;
       state.isLogged = true;
       state.user = action.payload;
+
     });
     builder.addCase(register.rejected, (state, action) => {
       state.isLoading = false;
       state.isErrored = true;
       state.user = null;
+      state.message = action.payload.message;
     });
 
     builder.addCase(getUserDetails.pending, (state) => {
       state.isLoading = true;
+
     });
     builder.addCase(getUserDetails.fulfilled, (state, action) => {
       state.isLoading = false;
@@ -144,21 +151,22 @@ export const userSlice = createSlice({
       state.isLoading = false;
       state.isErrored = true;
       state.user = null;
+      state.message = action.payload.message;
     });
 
-    builder.addCase(createGame.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(createGame.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.isSuccessful = true;
-      // Handle game creation success
-    });
-    builder.addCase(createGame.rejected, (state, action) => {
-      state.isLoading = false;
-      state.isErrored = true;
-      // Handle game creation failure
-    });
+    // builder.addCase(createGame.pending, (state) => {
+    //   state.isLoading = true;
+    // });
+    // builder.addCase(createGame.fulfilled, (state, action) => {
+    //   state.isLoading = false;
+    //   state.isSuccessful = true;
+    //   // Handle game creation success
+    // });
+    // builder.addCase(createGame.rejected, (state, action) => {
+    //   state.isLoading = false;
+    //   state.isErrored = true;
+    //   // Handle game creation failure
+    // });
 
     builder.addCase(logout.pending, (state) => {
       state.isLoading = true;

@@ -1,23 +1,5 @@
 import mongoose from "mongoose";
 
-const gamingSchema = new mongoose.Schema({
-  rating: {
-    type: Number,
-    default: 50,
-  },
-  exp: {
-    type: Number,
-    default: 0,
-  },
-  level: {
-    type: Number,
-    default: 1,
-  },
-  maxExp: {
-    type: Number,
-    default: 100,
-  },
-});
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -54,17 +36,14 @@ const userSchema = new mongoose.Schema({
   badges: {
     type: String,
   },
-  gaming: {
-    type: gamingSchema,
-    default: {
-      rating: 50,
-      exp: 0,
-      level: 1,
-      maxHealth: 50,
-      maxExp: 100,
-    },
+  rating: {
+    type: Number,
+    default: null,
   },
-
+  otp: {
+    type: String,
+    default: null,
+  },
   notifications: [
     {
       title: {
@@ -80,5 +59,5 @@ const userSchema = new mongoose.Schema({
   ],
 });
 
-const User = mongoose.model("innov_user",userSchema);
+const User = mongoose.model("innov_user", userSchema);
 export default User;
