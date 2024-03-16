@@ -6,6 +6,7 @@ import Navbar from "./navbar";
 import { Toaster } from "@/components/ui/toaster";
 import { useSelector } from "react-redux";
 import LogIn from "./pages/LogIn";
+import Game from "./pages/game";
 
 function App() {
   const [isSuccessful, isErrored, isLoading, isLogged, user] = useSelector(
@@ -27,6 +28,7 @@ function App() {
           <Route path="/" element={isLogged ? <Dash /> : <Dash />} />
           <Route path="/friends" element={<div>Friends</div>} />
           <Route path="/arena" element={<div>Arena</div>} />
+          <Route path="/game" element={<Game />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
